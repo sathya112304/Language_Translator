@@ -3,7 +3,6 @@ from transformers import MarianMTModel, MarianTokenizer
 
 app = Flask(__name__)
 
-# Load the model and tokenizer once to save time
 model_name = "Helsinki-NLP/opus-mt-en-hi"
 tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
@@ -28,4 +27,6 @@ def translate():
     return jsonify({"translated_text": translated_text})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
