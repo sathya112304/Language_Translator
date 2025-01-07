@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English to Hindi Translator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(143, 176, 187);
+            background-size: cover;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 95.5%;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: none;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #92a7bc;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            textarea {
+                font-size: 0.9rem;
+            }
+            button {
+                font-size: 0.9rem;
+                padding: 12px;
+            }
+            .result {
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+            textarea {
+                font-size: 0.8rem;
+                padding: 10px;
+            }
+            button {
+                font-size: 0.8rem;
+                padding: 10px;
+            }
+            .result {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>English to Hindi Translator</h1>
+        <textarea id="english-text" rows="4" placeholder="Enter English text here..."></textarea>
+        <button onclick="translateText()">Translate</button>
+        <div class="result" id="translated-text"></div>
+    </div>
+
+    <script>
+        async function translateText() {
+            const text = document.getElementById("english-text").value;
+            const response = await fetch("/translate", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ text: text })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("translated-text").innerText = `Translated Text: ${data.translated_text}`;
+            } else {
+                document.getElementById("translated-text").innerText = "Error translating text.";
+            }
+        }
+    </script>
+</body>
+</html>
